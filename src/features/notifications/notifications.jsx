@@ -15,25 +15,24 @@ import {
 } from "@mui/material";
 import { Info, DeleteForever } from "@mui/icons-material";
 import { baseUrl, accessToken } from "../../core/constants/constants";
-import ProjectCustomModal from "../../core/components/custom_modal/project_custom_modal";
+import NotificationCustomModal from "../../core/components/custom_modal/notification_custom_modal";
 
-const Projects = () => {
+const Notifications = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [projectsData, setprojectsData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [projectDataForModal, setprojectDataForModal] = useState({});
   const columns = [
-    { id: "name", label: "Name" },
-    { id: "address", label: "Address" },
-    { id: "activated", label: "Status" },
+    { id: "title", label: "Title" },
+    { id: "status", label: "Status" },
     { id: "action", label: "Action" },
   ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(baseUrl + "/auth/project", {
+        const response = await axios.get(baseUrl + "/auth/message", {
           headers: {
             "Content-Type": "application/json",
             access_token: accessToken,
@@ -108,12 +107,9 @@ const Projects = () => {
                           >
                             <TableCell key={index}>{index}</TableCell>
                             <TableCell key={index}>
-                              {`${row["name"]}`}
+                              {`${row["title"]}`}
                             </TableCell>
-                            <TableCell key={index}>{row["address"]}</TableCell>
-                            <TableCell key={index}>
-                              {row["activated"]}
-                            </TableCell>
+                            <TableCell key={index}>{row["status"]}</TableCell>
                             <TableCell key={index}>
                               <Stack direction="row" spacing={2}>
                                 <Button
@@ -153,7 +149,7 @@ const Projects = () => {
           </Box>
         </Grid>
       </Grid>
-      <ProjectCustomModal
+      <NotificationCustomModal
         data={projectDataForModal}
         openModal={openModal}
         handleCloseModal={handleCloseModal}
@@ -162,4 +158,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default Notifications;
