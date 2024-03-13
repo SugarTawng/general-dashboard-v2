@@ -14,7 +14,7 @@ import axios from "axios";
 import { accessToken, baseUrl } from "../../constants/constants";
 import { useState } from "react";
 
-const UserCustomModal = ({ data, openModal, handleCloseModal }) => {
+const EditUserCustomModal = ({ data, openModal, handleCloseModal }) => {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -155,4 +155,4 @@ const UserCustomModal = ({ data, openModal, handleCloseModal }) => {
 	);
 };
 
-export default UserCustomModal;
+export default EditUserCustomModal;

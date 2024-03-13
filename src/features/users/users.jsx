@@ -12,16 +12,19 @@ import {
 	TablePagination,
 	TableRow,
 	Stack,
+	Typography,
 } from "@mui/material";
 import { Info, DeleteForever } from "@mui/icons-material";
 import { baseUrl, accessToken } from "../../core/constants/constants";
-import UserCustomModal from "../../core/components/custom_modal/user_custom_modal";
+import EditUserCustomModal from "../../core/components/custom_modal/edit_user_custom_modal";
 import DeleteUserCustomModal from "../../core/components/custom_modal/delete_user_custom_modal";
+import CreateUserCustomModal from "../../core/components/custom_modal/create_user_custom_modal";
 
 const Users = () => {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [usersData, setUsersData] = useState([]);
+	const [openCreateModal, setOpenCreateModal] = useState(false);
 	const [openEditModal, setOpenEditModal] = useState(false);
 	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 	const [userDataForModal, setUserDataForModal] = useState({});
@@ -45,7 +48,6 @@ const Users = () => {
 				},
 			});
 			if (response.data) {
-				console.log(response.data.data);
 				// Thực hiện map trực tiếp và lưu vào biến userData
 				setUsersData(response.data.data.map((data) => ({ ...data })));
 			} else {
@@ -65,6 +67,13 @@ const Users = () => {
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
+	};
+	const handleOpenCreateModal = () => {
+		setOpenCreateModal(true);
+	};
+
+	const handleCloseCreateModal = () => {
+		setOpenCreateModal(false);
 	};
 
 	const handleOpenEditModal = (userData) => {
@@ -96,15 +105,31 @@ const Users = () => {
 					item
 					xs={12}>
 					<Box pt={3}>
-						<TablePagination
-							rowsPerPageOptions={[5, 10, 25, 100]}
-							component="div"
-							count={usersData.length}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-						/>
+						<Stack
+							direction="row"
+							justifyContent="space-between"
+							alignItems="center"
+							marginBottom="10px">
+							<Button
+								onClick={handleOpenCreateModal}
+								variant="contained"
+								size="medium">
+								<Typography
+									variant="caption"
+									color="#fff">
+									Add New User
+								</Typography>
+							</Button>
+							<TablePagination
+								rowsPerPageOptions={[5, 10, 25, 100]}
+								component="div"
+								count={usersData.length}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
+							/>
+						</Stack>
 						<TableContainer>
 							<Table>
 								<TableHead>
@@ -168,7 +193,11 @@ const Users = () => {
 					</Box>
 				</Grid>
 			</Grid>
-			<UserCustomModal
+			<CreateUserCustomModal
+				openModal={openCreateModal}
+				handleCloseModal={handleCloseCreateModal}
+			/>
+			<EditUserCustomModal
 				data={userDataForModal}
 				openModal={openEditModal}
 				handleCloseModal={handleCloseEditModal}
