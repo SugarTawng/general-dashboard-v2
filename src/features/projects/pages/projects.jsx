@@ -290,71 +290,28 @@ const Projects = () => {
 
 	return (
 		<>
-			<Box pt={3}>
-				<Stack
-					direction="row"
-					justifyContent="space-between"
-					alignItems="center"
-					marginBottom="10px">
-					<Button
-						onClick={handleOpenCreateModal}
-						variant="contained"
-						size="medium">
-						<Typography
-							variant="caption"
-							color="#fff">
-							Add New Project
-						</Typography>
-					</Button>
-				</Stack>
-
-				<TableContainer component={Paper}>
-					<Table>
-						<TableHead>
-							<TableRow>
-								{columns.map((column) => (
-									<TableCell
-										align="right"
-										key={column.id}>
-										{column.label}
-									</TableCell>
-								))}
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{projectsData
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => (
-									<TableRow
-										hover
-										key={row["id"]}>
-										<TableCell>{row["name"]}</TableCell>
-										<TableCell>{row["address"]}</TableCell>
-										<TableCell>{row["status"]}</TableCell>
-										<TableCell>{row["budget"]}</TableCell>
-										<TableCell>{`${row["project_progress"]}%`}</TableCell>
-										<TableCell>
-											<Stack
-												direction="row"
-												spacing={2}>
-												<Button
-													variant="text"
-													size="large"
-													onClick={() => handleOpenEditModal(row)}>
-													<Info style={{ color: "#616161" }} />
-												</Button>
-												<Button
-													variant="text"
-													size="large"
-													onClick={() => handleOpenDeleteModal(row)}>
-													<DeleteForever style={{ color: "#f44336" }} />
-												</Button>
-											</Stack>
-										</TableCell>
-									</TableRow>
-								))}
-						</TableBody>
-						<TableFooter>
+			<Grid
+				container
+				spacing={6}>
+				<Grid
+					item
+					xs={12}>
+					<Box pt={3}>
+						<Stack
+							direction="row"
+							justifyContent="space-between"
+							alignItems="center"
+							marginBottom="10px">
+							<Button
+								onClick={handleOpenCreateModal}
+								variant="contained"
+								size="medium">
+								<Typography
+									variant="caption"
+									color="#fff">
+									Add New Project
+								</Typography>
+							</Button>
 							<TablePagination
 								rowsPerPageOptions={[5, 10, 25, 100]}
 								count={projectsData.length}
@@ -363,10 +320,68 @@ const Projects = () => {
 								onPageChange={handleChangePage}
 								onRowsPerPageChange={handleChangeRowsPerPage}
 							/>
-						</TableFooter>
-					</Table>
-				</TableContainer>
-			</Box>
+						</Stack>
+
+						<TableContainer component={Paper}>
+							<Table>
+								<TableHead>
+									<TableRow>
+										{columns.map((column) => (
+											<TableCell
+												align="right"
+												key={column.id}>
+												{column.label}
+											</TableCell>
+										))}
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{projectsData
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((row, index) => (
+											<TableRow
+												hover
+												key={row["id"]}>
+												<TableCell>{row["name"]}</TableCell>
+												<TableCell>{row["address"]}</TableCell>
+												<TableCell>{row["status"]}</TableCell>
+												<TableCell>{row["budget"]}</TableCell>
+												<TableCell>{`${row["project_progress"]}%`}</TableCell>
+												<TableCell>
+													<Stack
+														direction="row"
+														spacing={2}>
+														<Button
+															variant="text"
+															size="large"
+															onClick={() => handleOpenEditModal(row)}>
+															<Info style={{ color: "#616161" }} />
+														</Button>
+														<Button
+															variant="text"
+															size="large"
+															onClick={() => handleOpenDeleteModal(row)}>
+															<DeleteForever style={{ color: "#f44336" }} />
+														</Button>
+													</Stack>
+												</TableCell>
+											</TableRow>
+										))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+						<TablePagination
+							component="div"
+							rowsPerPageOptions={[5, 10, 25, 100]}
+							count={projectsData.length}
+							rowsPerPage={rowsPerPage}
+							page={page}
+							onPageChange={handleChangePage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</Box>
+				</Grid>
+			</Grid>
 
 			<CreateProjectCustomModal
 				openModal={openCreateModal}

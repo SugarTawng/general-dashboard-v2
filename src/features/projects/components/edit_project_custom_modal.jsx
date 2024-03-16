@@ -3,6 +3,7 @@ import {
 	Button,
 	Divider,
 	Grid,
+	InputAdornment,
 	Modal,
 	Stack,
 	TextField,
@@ -10,6 +11,8 @@ import {
 } from "@mui/material";
 import { Clear } from "@mui/icons-material";
 import { ConvertDateTime } from "../../../core/utils/core_utils";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import PercentIcon from "@mui/icons-material/Percent";
 import axios from "axios";
 import { accessToken, baseUrl } from "../../../core/constants/constants";
 import { useState } from "react";
@@ -17,9 +20,10 @@ import { useState } from "react";
 const EditProjectCustomModal = ({ data, openModal, handleCloseModal }) => {
 	const [projectName, setProjectName] = useState("");
 	const [address, setAddress] = useState("");
-	const [phoneNumber, setPhoneNumber] = useState("");
+	const [phone, setPhone] = useState("");
 	const [email, setEmail] = useState("");
-	const [budget, setBudget] = useState("");
+	const [budget, setBudget] = useState(0);
+	const [projectProgess, setProjectProgress] = useState(0);
 
 	const handleOnSave = async () => {
 		const newProjectData = {
@@ -27,7 +31,7 @@ const EditProjectCustomModal = ({ data, openModal, handleCloseModal }) => {
 			name: projectName,
 			address: address,
 			email: email,
-			phone: phoneNumber,
+			phone: phone,
 			budget: budget,
 			updated_at: new Date().toLocaleString(),
 		};
@@ -96,7 +100,13 @@ const EditProjectCustomModal = ({ data, openModal, handleCloseModal }) => {
 							onChange={(event) => setProjectName(event.target.value)}
 						/>
 					</Grid>
-
+					<Grid item>
+						<TextField
+							label="Address"
+							defaultValue={data["address"]}
+							onChange={(event) => setAddress(event.target.value)}
+						/>
+					</Grid>
 					<Grid item>
 						<TextField
 							label="Email"
@@ -108,21 +118,40 @@ const EditProjectCustomModal = ({ data, openModal, handleCloseModal }) => {
 						<TextField
 							label="Phone Number"
 							defaultValue={data["phone"]}
-							onChange={(event) => setPhoneNumber(event.target.value)}
+							onChange={(event) => setPhone(event.target.value)}
 						/>
 					</Grid>
 					<Grid item>
 						<TextField
-							label="Phone Number"
-							defaultValue={data["phone"]}
-							onChange={(event) => setPhoneNumber(event.target.value)}
+							label="Project Progress"
+							type="number"
+							defaultValue={data["project_progress"]}
+							InputProps={{
+								inputProps: { min: 0 },
+								startAdornment: (
+									<InputAdornment position="start">
+										<PercentIcon />
+									</InputAdornment>
+								),
+							}}
+							onChange={(event) => setProjectProgress(event.target.value)}
 						/>
 					</Grid>
 					<Grid item>
 						<TextField
-							label="Phone Number"
-							defaultValue={data["phone"]}
-							onChange={(event) => setPhoneNumber(event.target.value)}
+							required
+							label="Budget"
+							type="number"
+							defaultValue={data["budget"]}
+							InputProps={{
+								inputProps: { min: 0 },
+								startAdornment: (
+									<InputAdornment position="start">
+										<AttachMoneyIcon />
+									</InputAdornment>
+								),
+							}}
+							onChange={(event) => setBudget(event.target.value)}
 						/>
 					</Grid>
 				</Grid>
