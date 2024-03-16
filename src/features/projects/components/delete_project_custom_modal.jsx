@@ -1,19 +1,19 @@
 import axios from "axios";
 import { Box, Button, Divider, Modal, Stack, Typography } from "@mui/material";
 import { Clear } from "@mui/icons-material";
-import { accessToken, baseUrl } from "../../constants/constants";
+import { accessToken, baseUrl } from "../../../core/constants/constants";
 
-const DeleteUserCustomModal = ({ data, openModal, handleCloseModal }) => {
+const DeleteProjectCustomModal = ({ data, openModal, handleCloseModal }) => {
 	const handleOnDelete = async () => {
 		try {
 			await axios
-				.delete(baseUrl + `/auth/account/${data["id"]}`, {
+				.delete(baseUrl + `/auth/project/${data["id"]}`, {
 					headers: {
 						"Content-Type": "application/json",
 						access_token: accessToken,
 					},
 				})
-				.then((value) => {
+				.then((_) => {
 					handleCloseModal();
 				});
 		} catch (e) {
@@ -49,7 +49,7 @@ const DeleteUserCustomModal = ({ data, openModal, handleCloseModal }) => {
 					<Typography
 						variant="h4"
 						component="h2">
-						Delete User?
+						Delete Project?
 					</Typography>
 					<Button
 						variant="text"
@@ -60,8 +60,7 @@ const DeleteUserCustomModal = ({ data, openModal, handleCloseModal }) => {
 				</Stack>
 				<Divider style={{ background: "black" }} />
 				<Typography variant="body2">
-					This will delete user{" "}
-					<b>{`${data["first_name"]} ${data["last_name"]}`}</b> permanently. You
+					This will delete project <b>{`${data["name"]}`}</b> permanently. You
 					cannot undo this action.
 				</Typography>
 				<Divider style={{ background: "black" }} />
@@ -92,4 +91,4 @@ const DeleteUserCustomModal = ({ data, openModal, handleCloseModal }) => {
 	);
 };
 
-export default DeleteUserCustomModal;
+export default DeleteProjectCustomModal;

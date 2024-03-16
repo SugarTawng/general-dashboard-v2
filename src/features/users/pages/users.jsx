@@ -15,10 +15,10 @@ import {
 	Typography,
 } from "@mui/material";
 import { Info, DeleteForever } from "@mui/icons-material";
-import { baseUrl, accessToken } from "../../core/constants/constants";
-import EditUserCustomModal from "../../core/components/custom_modal/edit_user_custom_modal";
-import DeleteUserCustomModal from "../../core/components/custom_modal/delete_user_custom_modal";
-import CreateUserCustomModal from "../../core/components/custom_modal/create_user_custom_modal";
+import { baseUrl, accessToken } from "../../../core/constants/constants";
+import EditUserCustomModal from "../components/edit_user_custom_modal";
+import DeleteUserCustomModal from "../components/delete_user_custom_modal";
+import CreateUserCustomModal from "../components/create_user_custom_modal";
 
 const Users = () => {
 	const [page, setPage] = useState(0);
@@ -60,6 +60,23 @@ const Users = () => {
 		}
 	};
 
+	const setDeletedForUser = async (isDeleted, userData) => {
+		try {
+			await axios.put(
+				baseUrl + `/auth/account/${userData["id"]}`,
+				{ ...userData, deleted: isDeleted },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						access_token: accessToken,
+					},
+				}
+			);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
 	};
@@ -73,6 +90,7 @@ const Users = () => {
 	};
 
 	const handleCloseCreateModal = () => {
+		fetchData();
 		setOpenCreateModal(false);
 	};
 
@@ -86,12 +104,13 @@ const Users = () => {
 		setOpenEditModal(false);
 	};
 
-	const handleOpenDeleteModal = (userData) => {
+	const handleOpenDeleteModal = async (userData) => {
+		await setDeletedForUser(true, userData);
 		setUserDataForModal(userData);
 		setOpenDeleteModal(true);
 	};
 
-	const handleCloseDeleteModal = () => {
+	const handleCloseDeleteModal = async () => {
 		fetchData();
 		setOpenDeleteModal(false);
 	};
@@ -149,14 +168,12 @@ const Users = () => {
 														hover
 														tabIndex={-1}
 														key={row["id"]}>
-														<TableCell key={row["id"]}>
+														<TableCell>
 															{`${row["first_name"]} ${row["last_name"]}`}
 														</TableCell>
-														<TableCell key={row["id"]}>{row["type"]}</TableCell>
-														<TableCell key={row["id"]}>
-															{row["activated"]}
-														</TableCell>
-														<TableCell key={row["id"]}>
+														<TableCell>{row["type"]}</TableCell>
+														<TableCell>{row["activated"]}</TableCell>
+														<TableCell>
 															<Stack
 																direction="row"
 																spacing={2}>

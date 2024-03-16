@@ -9,9 +9,9 @@ import {
 	Typography,
 } from "@mui/material";
 import { Clear } from "@mui/icons-material";
-import { ConvertDateTime } from "../../utils/core_utils";
+import { ConvertDateTime } from "../../../core/utils/core_utils";
 import axios from "axios";
-import { accessToken, baseUrl } from "../../constants/constants";
+import { accessToken, baseUrl } from "../../../core/constants/constants";
 import { useState } from "react";
 
 const EditUserCustomModal = ({ data, openModal, handleCloseModal }) => {

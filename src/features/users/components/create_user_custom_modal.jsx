@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Clear } from "@mui/icons-material";
 import axios from "axios";
-import { accessToken, baseUrl } from "../../constants/constants";
+import { accessToken, baseUrl } from "../../../core/constants/constants";
 import { useState } from "react";
 
 const CreateUserCustomModal = ({ openModal, handleCloseModal }) => {
@@ -53,8 +53,6 @@ const CreateUserCustomModal = ({ openModal, handleCloseModal }) => {
 			created_at: new Date().toLocaleString(),
 			updated_at: null,
 		};
-
-		console.log(newUserData);
 
 		try {
 			await axios
@@ -183,7 +181,7 @@ const CreateUserCustomModal = ({ openModal, handleCloseModal }) => {
 					</Grid>
 					<Grid item>
 						<FormControl sx={{ minWidth: 410 }}>
-							<InputLabel id="demo-select-small-label">User Type*</InputLabel>
+							<InputLabel>User Type*</InputLabel>
 							<Select
 								sx={{ height: 44 }}
 								value={type}

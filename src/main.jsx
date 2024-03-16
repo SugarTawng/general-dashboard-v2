@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
+
 import { MaterialUIControllerProvider } from "./core/context/context.jsx";
 import { Provider } from "react-redux";
 import { store } from "./core/redux/store.js";

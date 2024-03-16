@@ -9,12 +9,12 @@ import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 
 import Dashboard from "../../features/dashboard/dashboard";
-import Users from "../../features/users/users";
-import Projects from "../../features/projects/projects";
+import Users from "../../features/users/pages/users";
+import Projects from "../../features/projects/pages/projects";
 import Notifications from "../../features/notifications/notifications";
 import SignIn from "../../features/auth/sign_in/sign_in";
 import SignUp from "../../features/auth/sign_up/sign_up";
-import UserDetails from "../../features/users/user_details";
+import UserDetails from "../../features/users/pages/user_details";
 
 export const AppRoutes = [
 	{
