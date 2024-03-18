@@ -18,24 +18,22 @@ import {
 } from "@mui/material";
 import { Info, DeleteForever } from "@mui/icons-material";
 import { baseUrl, accessToken } from "../../../core/constants/constants";
-import CreateProjectCustomModal from "../components/create_project_custom_modal";
-import EditProjectCustomModal from "../components/edit_project_custom_modal";
-import DeleteProjectCustomModal from "../components/delete_project_custom_modal";
+import CreateNotiCustomModal from "../components/create_noti_custom_modal";
+import EditNotiCustomModal from "../components/edit_noti_custom_modal";
+import DeleteNotiCustomModal from "../components/delete_noti_custom_modal";
 
-const Projects = () => {
+const Notifications = () => {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
-	const [projectsData, setProjectsData] = useState([]);
+	const [notisData, setNotisData] = useState([]);
 	const [openCreateModal, setOpenCreateModal] = useState(false);
 	const [openEditModal, setOpenEditModal] = useState(false);
 	const [openDeleteModal, setOpenDeleteModal] = useState(false);
-	const [projectDataForModal, setProjectDataForModal] = useState({});
+	const [notiDataForModal, setNotiDataForModal] = useState({});
 	const columns = [
-		{ id: "name", label: "Name" },
-		{ id: "address", label: "Address" },
+		{ id: "title", label: "Title" },
+		{ id: "content", label: "Content" },
 		{ id: "status", label: "Status" },
-		{ id: "budget", label: "Budget" },
-		{ id: "project_progress", label: "Progress" },
 		{ id: "action", label: "Action" },
 	];
 
@@ -45,7 +43,7 @@ const Projects = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get(baseUrl + "/auth/project", {
+			const response = await axios.get(baseUrl + "/auth/message", {
 				headers: {
 					"Content-Type": "application/json",
 					access_token: accessToken,
@@ -54,24 +52,24 @@ const Projects = () => {
 
 			if (response.data) {
 				// Thực hiện map trực tiếp và lưu vào biến userData
-				setProjectsData(response.data.data.data.map((data) => ({ ...data })));
+				setNotisData(response.data.data.data.map((data) => ({ ...data })));
 			} else {
 				// Xử lý khi response không có dữ liệu
 
-				setProjectsData([]); // Đảm bảo userData không bao giờ là null
+				setNotisData([]); // Đảm bảo userData không bao giờ là null
 			}
 		} catch (e) {
 			// Xử lý lỗi trong quá trình gửi request
 
-			setProjectsData([]); // Đảm bảo userData không bao giờ là null
+			setNotisData([]); // Đảm bảo userData không bao giờ là null
 		}
 	};
 
-	const setDeletedForProject = async (isDeleted, projectData) => {
+	const setDeletedForNoti = async (isDeleted, notiData) => {
 		try {
 			await axios.put(
-				baseUrl + `/auth/project/${projectData["id"]}`,
-				{ ...projectData, deleted: isDeleted },
+				baseUrl + `/auth/message/${projectData["id"]}`,
+				{ ...notiData, deleted: isDeleted },
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -92,6 +90,7 @@ const Projects = () => {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	};
+
 	const handleOpenCreateModal = () => {
 		setOpenCreateModal(true);
 	};
@@ -101,8 +100,8 @@ const Projects = () => {
 		setOpenCreateModal(false);
 	};
 
-	const handleOpenEditModal = (projectData) => {
-		setProjectDataForModal(projectData);
+	const handleOpenEditModal = (notiData) => {
+		setNotiDataForModal(notiData);
 		setOpenEditModal(true);
 	};
 
@@ -111,9 +110,9 @@ const Projects = () => {
 		setOpenEditModal(false);
 	};
 
-	const handleOpenDeleteModal = async (projectData) => {
-		await setDeletedForProject(true, projectData);
-		setProjectDataForModal(projectData);
+	const handleOpenDeleteModal = async (notiData) => {
+		await setDeletedForNoti(true, notiData);
+		setNotiDataForModal(notiData);
 		setOpenDeleteModal(true);
 	};
 
@@ -143,12 +142,12 @@ const Projects = () => {
 								<Typography
 									variant="caption"
 									color="#fff">
-									Add New Project
+									Add New Notification
 								</Typography>
 							</Button>
 							<TablePagination
 								rowsPerPageOptions={[5, 10, 25, 100]}
-								count={projectsData.length}
+								count={notisData.length}
 								rowsPerPage={rowsPerPage}
 								page={page}
 								onPageChange={handleChangePage}
@@ -170,17 +169,15 @@ const Projects = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{projectsData
+									{notisData
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((row, index) => (
 											<TableRow
 												hover
 												key={row["id"]}>
-												<TableCell>{row["name"]}</TableCell>
-												<TableCell>{row["address"]}</TableCell>
+												<TableCell>{row["title"]}</TableCell>
+												<TableCell>{row["content"]}</TableCell>
 												<TableCell>{row["status"]}</TableCell>
-												<TableCell>{row["budget"]}</TableCell>
-												<TableCell>{`${row["project_progress"]}%`}</TableCell>
 												<TableCell>
 													<Stack
 														direction="row"
@@ -207,7 +204,7 @@ const Projects = () => {
 						<TablePagination
 							component="div"
 							rowsPerPageOptions={[5, 10, 25, 100]}
-							count={projectsData.length}
+							count={notisData.length}
 							rowsPerPage={rowsPerPage}
 							page={page}
 							onPageChange={handleChangePage}
@@ -217,17 +214,17 @@ const Projects = () => {
 				</Grid>
 			</Grid>
 
-			<CreateProjectCustomModal
+			<CreateNotiCustomModal
 				openModal={openCreateModal}
 				handleCloseModal={handleCloseCreateModal}
 			/>
-			<EditProjectCustomModal
-				data={projectDataForModal}
+			<EditNotiCustomModal
+				data={notiDataForModal}
 				openModal={openEditModal}
 				handleCloseModal={handleCloseEditModal}
 			/>
-			<DeleteProjectCustomModal
-				data={projectDataForModal}
+			<DeleteNotiCustomModal
+				data={notiDataForModal}
 				openModal={openDeleteModal}
 				handleCloseModal={handleCloseDeleteModal}
 			/>
@@ -235,4 +232,4 @@ const Projects = () => {
 	);
 };
 
-export default Projects;
+export default Notifications;

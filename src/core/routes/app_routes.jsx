@@ -11,7 +11,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import Dashboard from "../../features/dashboard/dashboard";
 import Users from "../../features/users/pages/users";
 import Projects from "../../features/projects/pages/projects";
-import Notifications from "../../features/notifications/notifications";
+import Notifications from "../../features/notifications/pages/notifications";
 import SignIn from "../../features/auth/sign_in/sign_in";
 import SignUp from "../../features/auth/sign_up/sign_up";
 import UserDetails from "../../features/users/pages/user_details";
