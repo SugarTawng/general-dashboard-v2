@@ -2,25 +2,30 @@ import {
 	Box,
 	Button,
 	Divider,
+	FormControl,
 	Grid,
-	InputAdornment,
 	InputLabel,
+	MenuItem,
 	Modal,
+	Select,
 	Stack,
 	TextField,
 	Typography,
 } from "@mui/material";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Clear } from "@mui/icons-material";
 import axios from "axios";
 import { accessToken, baseUrl } from "../../../core/constants/constants";
 import { useState } from "react";
 
-const CreateNotiCustomModal = ({ openModal, handleCloseModal }) => {
+const CreateNotiCustomModal = ({
+	openModal,
+	handleCloseModal,
+	allProjecsID,
+}) => {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [status, setStatus] = useState("");
-	const [projectID, setProjectID] = useState(0);
+	const [projectID, setProjectID] = useState("");
 
 	const handleOnSave = async () => {
 		const newNotiData = {
@@ -29,7 +34,7 @@ const CreateNotiCustomModal = ({ openModal, handleCloseModal }) => {
 			content: content,
 			status: status,
 			deleted: "false",
-			projectID: projectID,
+			project_id: projectID,
 			created_by: 13,
 			updated_by: 13,
 			created_at: new Date().toLocaleString(),
@@ -115,15 +120,26 @@ const CreateNotiCustomModal = ({ openModal, handleCloseModal }) => {
 						/>
 					</Grid>
 					<Grid item>
-						<TextField
-							type="number"
-							InputProps={{
-								inputProps: { min: 0 },
-							}}
-							required
-							label="Project ID"
-							onChange={(event) => setProjectID(event.target.value)}
-						/>
+						<FormControl sx={{ minWidth: 200 }}>
+							<InputLabel>Project ID*</InputLabel>
+							<Select
+								sx={{ height: 44 }}
+								value={projectID}
+								label="Project ID*"
+								onChange={(event) => {
+									setProjectID(event.target.value);
+								}}>
+								{allProjecsID.map((id) => {
+									return (
+										<MenuItem
+											key={id}
+											value={id}>
+											{id}
+										</MenuItem>
+									);
+								})}
+							</Select>
+						</FormControl>
 					</Grid>
 				</Grid>
 				<Divider style={{ background: "black" }} />

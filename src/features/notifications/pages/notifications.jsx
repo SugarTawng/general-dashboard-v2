@@ -30,6 +30,7 @@ const Notifications = () => {
 	const [openEditModal, setOpenEditModal] = useState(false);
 	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 	const [notiDataForModal, setNotiDataForModal] = useState({});
+	const [allProjecsID, setAllProjectsID] = useState([]);
 	const columns = [
 		{ id: "title", label: "Title" },
 		{ id: "content", label: "Content" },
@@ -39,6 +40,7 @@ const Notifications = () => {
 
 	useEffect(() => {
 		fetchData();
+		getAllProjectsID();
 	}, []);
 
 	const fetchData = async () => {
@@ -62,6 +64,31 @@ const Notifications = () => {
 			// Xử lý lỗi trong quá trình gửi request
 
 			setNotisData([]); // Đảm bảo userData không bao giờ là null
+		}
+	};
+
+	const getAllProjectsID = async () => {
+		try {
+			const response = await axios.get(baseUrl + "/auth/project", {
+				headers: {
+					"Content-Type": "application/json",
+					access_token: accessToken,
+				},
+			});
+
+			if (response.data) {
+				let projects = response.data.data.data;
+
+				projects = projects.map((project) => {
+					return project.id;
+				});
+
+				setAllProjectsID(projects);
+			} else {
+				setAllProjectsID([]);
+			}
+		} catch (e) {
+			setAllProjectsID([]);
 		}
 	};
 
@@ -145,14 +172,6 @@ const Notifications = () => {
 									Add New Notification
 								</Typography>
 							</Button>
-							<TablePagination
-								rowsPerPageOptions={[5, 10, 25, 100]}
-								count={notisData.length}
-								rowsPerPage={rowsPerPage}
-								page={page}
-								onPageChange={handleChangePage}
-								onRowsPerPageChange={handleChangeRowsPerPage}
-							/>
 						</Stack>
 
 						<TableContainer component={Paper}>
@@ -217,6 +236,7 @@ const Notifications = () => {
 			<CreateNotiCustomModal
 				openModal={openCreateModal}
 				handleCloseModal={handleCloseCreateModal}
+				allProjecsID={allProjecsID}
 			/>
 			<EditNotiCustomModal
 				data={notiDataForModal}

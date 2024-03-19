@@ -139,15 +139,6 @@ const Users = () => {
 									Add New User
 								</Typography>
 							</Button>
-							<TablePagination
-								rowsPerPageOptions={[5, 10, 25, 100]}
-								component="div"
-								count={usersData.length}
-								rowsPerPage={rowsPerPage}
-								page={page}
-								onPageChange={handleChangePage}
-								onRowsPerPageChange={handleChangeRowsPerPage}
-							/>
 						</Stack>
 						<TableContainer>
 							<Table>

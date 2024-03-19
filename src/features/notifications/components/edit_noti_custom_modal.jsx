@@ -92,7 +92,7 @@ const EditNotiCustomModal = ({ data, openModal, handleCloseModal }) => {
 						<TextField
 							label="Notification Title"
 							defaultValue={data["title"]}
-							onChange={(event) => setTitleName(event.target.value)}
+							onChange={(event) => setTitle(event.target.value)}
 						/>
 					</Grid>
 					<Grid item>

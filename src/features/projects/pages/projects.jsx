@@ -41,6 +41,7 @@ const Projects = () => {
 
 	useEffect(() => {
 		fetchData();
+		getAllProjectsID();
 	}, []);
 
 	const fetchData = async () => {
@@ -146,14 +147,6 @@ const Projects = () => {
 									Add New Project
 								</Typography>
 							</Button>
-							<TablePagination
-								rowsPerPageOptions={[5, 10, 25, 100]}
-								count={projectsData.length}
-								rowsPerPage={rowsPerPage}
-								page={page}
-								onPageChange={handleChangePage}
-								onRowsPerPageChange={handleChangeRowsPerPage}
-							/>
 						</Stack>
 
 						<TableContainer component={Paper}>
